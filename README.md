@@ -20,7 +20,7 @@ Se formatea y se guarda esa lista en un archivo llamado extensiones.txt que esta
 
 Se crea un archivo de log temporal que contendrá las últimas líneas de /var/log/samba/audit.log, esa cantidad de líneas se puede configurar en el action.py, este archivo temporal se llama "temp_log.txt" que estará en la ruta relativa al "Action.py".
 
-En caso de detectar peligro se ejecuta un archivo bash que obtiene el nombre de la PC, nombre del usuario y la IP correspondiente para poder tomar acciones como banear la ip con iptables, detener samba, o lo que se requiera.
+En caso de detectar peligro se ejecuta un archivo bash que obtiene el nombre de la PC, nombre del usuario y la IP correspondiente para poder tomar acciones como banear la ip con iptables, detener samba, o lo que se requiera (action.sh o action2.sh).
 
 
 
@@ -33,6 +33,10 @@ Notas:
 3.- Sigo creando los scripts pero ya funciona.
 
 4.- Si alguien sabe de alguna base de datos más completa deje su aporte, mientras más completa mejor para todos >:v
+
+5.- Esto lo estoy haciendo con un sistema Ubuntu Server 22.04 pero se puede adaptar fácilmente a tu sistema.
+
+6.- Debes de ejecutar con permisos de administrador
 
 
 Fecha de creación: 13/01/24
