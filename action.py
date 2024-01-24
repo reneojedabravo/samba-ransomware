@@ -13,8 +13,8 @@ def buscar_extensiones(linea, lista_extensiones):
         # Escapar caracteres especiales en la extensión
         extension_escapada = re.escape(extension)
 
-        # Reemplazar el comodín "*" con la expresión regular ".+"
-        extension_regex = extension_escapada.replace(r'\*', r'.+')
+        # Reemplazar el comodín "*" con la expresión regular "[^/]*"
+        extension_regex = extension_escapada.replace(r'\*', r'[^/]*') + r'$'
 
         # Buscar coincidencias en la línea
         coincidencias = re.findall(extension_regex, linea)
@@ -24,12 +24,12 @@ def buscar_extensiones(linea, lista_extensiones):
             usuario, ip, nombre_equipo = extraer_informacion(linea)
             if usuario is not None:
                 print(f'¡Extensión detectada en la línea: {linea.strip()}!')
-                #print(f'Usuario: {usuario}, IP: {ip}, Nombre del equipo: {nombre_equipo}')
+                print(f'Usuario: {usuario}, IP: {ip}, Nombre del equipo: {nombre_equipo}, Extensión: {extension}')
                 ejecutar_script_bash(usuario, ip, nombre_equipo)
-            return True
+            return True, extension
 
     # Si no se encontraron extensiones, devolver False
-    return False
+    return False, None
 
 # Función para extraer información de la línea
 def extraer_informacion(linea):
@@ -62,7 +62,7 @@ def obtener_extensiones():
         data = response.json()
         filters = data["filters"]
         
-        # Excluir las extensiones por ejemplo "*.blend", "*.skynet", "*.etc"...
+        # Excluir las extensiones por ejemplo "*.blend", "*.skynet", ...
         filters = [extension for extension in filters if extension not in ["*.blend"]]
         
         # Guardar la lista en el archivo extensiones.txt
@@ -89,10 +89,12 @@ def procesar_archivo_temporal(archivo_temporal, lista_extensiones):
     try:
         with open(archivo_temporal, "r") as temp_file:
             for linea in temp_file:
-                if buscar_extensiones(linea, lista_extensiones):
-                    return
+                extension_encontrada, extension = buscar_extensiones(linea, lista_extensiones)
+                if extension_encontrada:
+                    return extension
     except Exception as e:
         print(f"Error al leer el archivo temporal: {str(e)}")
+    return None
 
 # Función principal
 def main():
@@ -121,7 +123,10 @@ def main():
                 temp_file.writelines(cola_lineas)
 
             # Procesar el archivo temporal
-            procesar_archivo_temporal(archivo_temporal, lista_extensiones)
+            extension_identificada = procesar_archivo_temporal(archivo_temporal, lista_extensiones)
+
+            if extension_identificada:
+                print(f'Extensión identificada: {extension_identificada}')
 
             # Esperar antes de volver a revisar el archivo de registro
             time.sleep(1)
