@@ -36,7 +36,7 @@ Notas:
 
 5.- Esto lo estoy haciendo con un sistema Ubuntu Server 22.04 pero se puede adaptar fácilmente a tu sistema.
 
-6.- Debes de ejecutar con permisos de administrador
+6.- Debes de ejecutar con permisos de administrador action.py
 
 
 Fecha de creación: 13/01/24
