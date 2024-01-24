@@ -5,9 +5,11 @@ Requerimientos:
 
 Python3
 
-Esto requiere que se haya configurado la auditoría samba
+Esto requiere que se haya configurado la auditoría samba.
 
 Los registros de la auditoría samba deberán guardarse en /var/log/samba/audit.log
+
+IPTABLES y fail2ban debidamente configurados en caso de optar por el baneo de la IP atacante.
 
 
 Funcionamiento:
@@ -16,7 +18,7 @@ Se descarga una base de datos de las extensiones y nombres con los que se pueden
 
 Se formatea y se guarda esa lista en un archivo llamado extensiones.txt que estará en la ruta relativa al "action.py".
 
-Se crea un archivo de log temporal que contendrá las últimas líneas de /var/log/samba/audit.log, esa cantidad de líneas se puede configurar en el action.py, este archivo temporal se llama "temp_log.txt" que estará en la ruta relativa al "Action.py"
+Se crea un archivo de log temporal que contendrá las últimas líneas de /var/log/samba/audit.log, esa cantidad de líneas se puede configurar en el action.py, este archivo temporal se llama "temp_log.txt" que estará en la ruta relativa al "Action.py".
 
 En caso de detectar peligro se ejecuta un archivo bash que obtiene el nombre de la PC, nombre del usuario y la IP correspondiente para poder tomar acciones como banear la ip con iptables, detener samba, o lo que se requiera.
 
